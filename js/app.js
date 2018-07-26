@@ -6,6 +6,8 @@ const arrCards=[ "fa fa-diamond","fa fa-diamond","fa fa-anchor","fa fa-anchor","
 const deck= document.querySelector('.deck');
 let opened=[];
 let matched=[];
+let counter=[];
+const restart=document.querySelector('.restart');
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -14,6 +16,7 @@ let matched=[];
  */
 shuffle(arrCards);
 initialise();
+restartSymbol();
 function initialise(){
    for(i=0; i<arrCards.length ; i++){
 
@@ -45,17 +48,19 @@ function matchCard(card){
     card.addEventListener("click" , function(){
     const currentCard= this;
     const previousCard= opened[0];
+    incrCounter();
+
     if (opened.length === 1){
-        card.classList.add("open","show");
+        card.classList.add("open","show","disable");
         opened.push(this);
+
         if (this.innerHTML === opened[0].innerHTML){
           currentCard.classList.add("match");
           previousCard.classList.add("match");
           opened=[];
           matched.push(currentCard,previousCard);
           finalScore();
-
-      }  else {
+          }  else {
           unmatchedCard(currentCard , previousCard);
               }
     } else {
@@ -64,24 +69,41 @@ function matchCard(card){
         }
   });
 
+
 }
+
 
 function unmatchedCard(currentCard , previousCard){
   setTimeout(function() {
-  currentCard.classList.remove("open","show");
-  previousCard.classList.remove("open","show");
+  currentCard.classList.remove("open","show","diable");
+  previousCard.classList.remove("open","show","disable");
   opened=[];
 }, 500);
 }
-function incrCounter(){
 
+function incrCounter(){
+let movesCtr=0;
+counter.push(this);
+const move=document.querySelector('.moves');
+move.innerHTML= counter.length;
+console.log(movesCtr);
 }
 function finalScore() {
       if (matched.length === arrCards.length){
-      alert("Game Over");
+      alert("Game Over in" + counter.length);
 
   }
 
+}
+
+function restartSymbol(){
+  restart.addEventListener("click", function(){
+    const cards=$('.card');
+    cards.remove();
+    initialise();
+    matched=[];
+    counter=[];
+  });
 }
 
 
