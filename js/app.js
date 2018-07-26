@@ -4,23 +4,27 @@
 const arrCards=[ "fa fa-diamond","fa fa-diamond","fa fa-anchor","fa fa-anchor","fa fa-paper-plane-o","fa fa-paper-plane-o","fa fa-bolt","fa fa-bolt","fa fa-cube","fa fa-cube","fa fa-leaf","fa fa-leaf","fa fa-bomb","fa fa-bomb","fa fa-bicycle","fa fa-bicycle"];
 //container for arrCards
 const deck= document.querySelector('.deck');
+let opened=[];
+let matched=[];
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
-for(i=0; i<arrCards.length ; i++){
-  const card=document.createElement('li');
-  card.classList.add("card");
-  card.innerHTML=`<i class = "${arrCards[i]} "></i>`;
-  deck.appendChild(card);
-  card.addEventListener('click' , function(){
-  console.log(card.innerHTML);
-  card.classList.add("open","show");
+shuffle(arrCards);
+initialise();
+function initialise(){
+   for(i=0; i<arrCards.length ; i++){
 
-  });
+       const card=document.createElement('li');
+       card.classList.add("card");
+       card.innerHTML=`<i class = "${arrCards[i]} "></i>`;
+       deck.appendChild(card);
+      matchCard(card);
+    }
 }
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -36,7 +40,49 @@ function shuffle(array) {
     return array;
 }
 
+function matchCard(card){
 
+    card.addEventListener("click" , function(){
+    const currentCard= this;
+    const previousCard= opened[0];
+    if (opened.length === 1){
+        card.classList.add("open","show");
+        opened.push(this);
+        if (this.innerHTML === opened[0].innerHTML){
+          currentCard.classList.add("match");
+          previousCard.classList.add("match");
+          opened=[];
+          matched.push(currentCard,previousCard);
+          finalScore();
+
+      }  else {
+          unmatchedCard(currentCard , previousCard);
+              }
+    } else {
+          currentCard.classList.add("open","show");
+          opened.push(this);
+        }
+  });
+
+}
+
+function unmatchedCard(currentCard , previousCard){
+  setTimeout(function() {
+  currentCard.classList.remove("open","show");
+  previousCard.classList.remove("open","show");
+  opened=[];
+}, 500);
+}
+function incrCounter(){
+
+}
+function finalScore() {
+      if (matched.length === arrCards.length){
+      alert("Game Over");
+
+  }
+
+}
 
 
 /*
