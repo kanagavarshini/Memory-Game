@@ -16,13 +16,14 @@
         </header>
 
         <section class="score-panel">
+          <span class="clock">0:00</span>
         	<ul class="stars">
         		<li><i class="fa fa-star"></i></li>
         		<li><i class="fa fa-star"></i></li>
         		<li><i class="fa fa-star"></i></li>
         	</ul>
 
-        	<span class="moves"></span> Moves
+        	<span class="moves">0</span> Moves
 
             <div class="restart">
         		<i class="fa fa-repeat"></i>
@@ -33,7 +34,14 @@
 
         </ul>
     </div>
-
+    <dialog id="dlgModal">
+      <div>
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h4>Modal Box Heading</h4>
+        <p>Content here</p>
+      </div>
+    </dialog>
+    <input type="button" onclick="showModal()" value="Show Modal"/>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="js/app.js"></script>

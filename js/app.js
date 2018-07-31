@@ -7,6 +7,10 @@ const deck= document.querySelector('.deck');
 let opened=[];
 let matched=[];
 let counter=[];
+let minutes=0;
+let seconds=0;
+let initialClick=false;
+let timer;
 const restart=document.querySelector('.restart');
 /*
  * Display the cards on the page
@@ -17,6 +21,7 @@ const restart=document.querySelector('.restart');
 shuffle(arrCards);
 initialise();
 restartSymbol();
+
 function initialise(){
    for(i=0; i<arrCards.length ; i++){
 
@@ -48,6 +53,10 @@ function matchCard(card){
     card.addEventListener("click" , function(){
     const currentCard= this;
     const previousCard= opened[0];
+    if (initialClick === false){
+      initialClick == true;
+      beginTimer();
+    }
     incrCounter();
 
     if (opened.length === 1){
@@ -82,20 +91,48 @@ function unmatchedCard(currentCard , previousCard){
 }
 
 function incrCounter(){
-let movesCtr=0;
 counter.push(this);
 const move=document.querySelector('.moves');
 move.innerHTML= counter.length;
-console.log(movesCtr);
+if (counter.length > 16 ){
+  hideStar();
+} else if (counter.length  > 20){
+  hideStar();
+
 }
+}
+
 function finalScore() {
       if (matched.length === arrCards.length){
-      alert("Game Over in" + counter.length);
+      alert("Game Over in" + " "+counter.length+" "+"move");
 
   }
 
 }
+function hideStar(){
+  const starLi= document.querySelectorAll('.stars li');
+  for(star of starLi){
+    if (star.style.display !== 'none'){
+      star.style.display='none';
+      break;
+    }
+  }
+}
+/*function restartSymbol(){
+ restart.addEventListener("click", function(){
 
+   const cards=document.querySelectorAll('.card');
+   cards.remove();
+   const cards=document.getElementsByClassName('card');
+   for (let i=0; i<cards.length;i++){
+   cards[i].classList.remove('card');
+   }
+   shuffle(arrCards);
+   initialise();
+   matched=[];
+   counter=[];
+ });
+}*/
 function restartSymbol(){
   restart.addEventListener("click", function(){
     const cards=$('.card');
@@ -103,10 +140,47 @@ function restartSymbol(){
     initialise();
     matched=[];
     counter=[];
+    move.innerHTML= "";
+    resetTimer();
   });
 }
+function beginTimer() {
 
+  timer = setInterval(function(){
+    seconds++;
+    if (seconds==60){
+      minutes++;
+      seconds=0;
+    }
+    displayTime();
+    console.log(formatTime());
+  },1000);
+}
+function resetTimer(){
+  clearInterval(timer);
+}
+function formatTime(){
+  let sec= seconds>9 ? String(seconds) : '0'+ String(seconds);
+  let min= minutes>9 ? string(minutes) : '0'+ String(minutes);
+  return min + ':' + sec;
+}
+function displayTime(){
+  let dis = document.querySelector('.clock');
+  dis.innerHTML= formatTime();
+}
+function showModal() {
+  // retrieve <dialog> element using id
+  let dlgModal = document.querySelector("#dlgModal");
+  // show dialog using showModal
+  dlgModal.showModal();
+}
 
+function closeModal() {
+  // retrieve <dialog> element using id
+    let dlgModal = document.querySelector("#dlgModal");
+  // close dialog using close()
+    dlgModal.close();
+}
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
