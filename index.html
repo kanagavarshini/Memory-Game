@@ -34,14 +34,21 @@
 
         </ul>
     </div>
-    <dialog id="dlgModal">
-      <div>
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h4>Modal Box Heading</h4>
-        <p>Content here</p>
-      </div>
-    </dialog>
-    <input type="button" onclick="showModal()" value="Show Modal"/>
+
+    <!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h1>YOU COMPLETED THE GAME IN </h1>
+    <h2 class="modal_moves">MOVES:    </h2>
+    <h2 class="modal_time">TIME:  </h2>
+  </div>
+
+</div>
+
+
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="js/app.js"></script>
