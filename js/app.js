@@ -155,6 +155,7 @@ function restartSymbol(){
   restart.addEventListener("click", function(){
     const cards=$('.card');
     cards.remove();
+    shuffle(arrCards);
     initialise();
     matched=[];
     counter=[];
